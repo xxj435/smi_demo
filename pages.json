@@ -5,6 +5,12 @@
 			"style": {
 				"navigationBarTitleText": "uni-app"
 			}
+		},
+		{
+			"path": "pages/sing/sing",
+			"style": {
+				"navigationBarTitleText": "sing"
+			}
 		}
 	],
 	"globalStyle": {

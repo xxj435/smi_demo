@@ -171,6 +171,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var _vuex = __webpack_require__(/*! vuex */ 12);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 
 
@@ -202,6 +203,7 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function ownKeys(object, enumera
 
 
   onLoad: function onLoad(option) {
+
     console.log(this.$store.state.isFlag);
     if (option.userId) {// 有id则是分享出去了
       this.userId = option.userId;
@@ -212,6 +214,8 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function ownKeys(object, enumera
       this.characteristicId = option.obj.characteristicId;
       this.deviceId = option.obj.deviceId;
     }
+
+
   },
   onShareAppMessage: function onShareAppMessage(res) {
     var obj = {
@@ -233,6 +237,12 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function ownKeys(object, enumera
 
 
   methods: {
+    startRecord: function startRecord() {
+      uni.navigateTo({
+        url: '/pages/sing/sing' });
+
+    },
+
     bindGetUserInfo: function bindGetUserInfo(e) {var _this2 = this;
       var _this = this;
       uni.getUserProfile({ // 登录授权
@@ -264,7 +274,8 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function ownKeys(object, enumera
                         username: _this.userInfo.nickName,
                         headPicture: _this.userInfo.avatarUrl,
                         sex: _this.userInfo.gender,
-                        sharerId: _this.userId },
+                        sharerId: _this.userId,
+                        id: _this.identity.userId },
 
                       success: function success(y) {
                         console.log(y, '进入获取用户信息');
@@ -427,7 +438,7 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function ownKeys(object, enumera
 
     // 发送指令
     onSendCommand: function onSendCommand(msg) {
-      console.log(msg, 11111);
+      console.log(msg, '获取到的指令');
       var message;
 
       message = 'A1 08 01 00 00 00 64 1E 00 32 61 55';

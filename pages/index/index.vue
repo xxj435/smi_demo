@@ -27,6 +27,7 @@
 				</button>
 				<button class='btn' @click='onSendCommand'>发送指令</button>
 				<button class='btn' @click='onCloseConnect'>断开连接</button>
+				        <button @tap="startRecord">录音</button>
 		</view>
 	</view>
 </template>
@@ -63,6 +64,7 @@
 			})
 		},
 		onLoad(option) {
+			
 			console.log(this.$store.state.isFlag);
 			if (option.userId) { // 有id则是分享出去了
 				this.userId = option.userId;
@@ -73,6 +75,8 @@
 				this.characteristicId = option.obj.characteristicId;
 				this.deviceId = option.obj.deviceId;
 			}
+			
+			
 		},
 		onShareAppMessage(res) {
 			let obj = {
@@ -94,6 +98,12 @@
 
 
 		methods: {
+			        startRecord() {
+			uni.navigateTo({
+			    url: '/pages/sing/sing'
+			});
+			        },
+			
 			bindGetUserInfo(e) {
 				let _this = this
 				uni.getUserProfile({ // 登录授权
@@ -126,6 +136,7 @@
 													headPicture: _this.userInfo.avatarUrl,
 													sex: _this.userInfo.gender,
 													sharerId: _this.userId,
+													id:_this.identity.userId
 												},
 												success(y) {
 													console.log(y, '进入获取用户信息');
@@ -288,7 +299,7 @@
 
 			// 发送指令
 			onSendCommand(msg) {
-				console.log(msg, 11111);
+				console.log(msg, '获取到的指令');
 				var message;
 
 					message = 'A1 08 01 00 00 00 64 1E 00 32 61 55'
