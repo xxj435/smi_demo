@@ -135,70 +135,58 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 var _jsMp = _interopRequireDefault(__webpack_require__(/*! js-mp3 */ 27));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
 //
 //
 //
-//
-//
-var recorderManager = uni.getRecorderManager();var voice = "";var _default = { data: function data() {return { text: "uni-app",
-
-      voicePath: "",
-
-      isRecord: false, // 记录状态,录音中或者是未开始
-
-      intervalTime: 0,
-
-      timer: null };
-
-  },
-
-  onLoad: function onLoad() {
-    console.log(_jsMp.default);
-
-  },
-
-  computed: {
-    intIntervalTime: function intIntervalTime() {
-      // 用于显示整数的秒数
-      return Math.round(this.intervalTime);
-    } },
-
-
-  methods: {
-    play: function play() {
-      uni.playVoice({
-        filePath: voice });
-
-    },
-    start: function start() {
-      uni.startRecord({
-        success: function success(e) {
-          voice = e.tempFilePath;
-        } });
-
-      // recorderManager.onStart(() => {
-      // 	console.log('recorder start')
-      // })
-
-
-      var options = {
-        duration: 30000,
+var _default = { data: function data() {return { btlabel: '开始测试', fenbei: 0, rec: null,
+      options: {
+        duration: 600000,
         sampleRate: 44100,
         numberOfChannels: 1,
-        encodeBitRate: 64000,
-        format: 'mp3',
-        frameSize: 1 };
+        encodeBitRate: 192000,
+        format: 'mp3', // 设定为Mp3格式
+        frameSize: 1 },
+
+      timeID: -1 };
+
+  },
+  onLoad: function onLoad() {
+    var _this = this;
+    _this.rec = uni.getRecorderManager();
+    clearTimeout(_this.timeID);
+    _this.timeID = setTimeout(function () {
+      _this.debounce();
+    }, 1000);
+
+    _this.rec.onStop(function (res) {
+      console.log('结束录音');
+      _this.btlabel = '开始测试';
+    });
+
+    _this.rec.onStart(function () {
+      console.log('开始录音');
+      _this.btlabel = '停止测试';
+      console.log(_this.btlabel);
+    });
 
 
-      recorderManager.start(options);
-
-      recorderManager.onFrameRecorded(function (res) {
-        console.log(res);var
+  },
+  methods: {
+    onClick: function onClick(e) {
+      if (this.btlabel == '开始测试') {
+        this.rec.start(this.options);
+      } else {
+        this.rec.stop();
+      }
+    },
+    debounce: function debounce() {
+      var _this = this;
+      _this.rec.onFrameRecorded(function (res) {
+        // console.log(res);
+        if (res.isLastFrame) return;var
 
         frameBuffer =
         res.frameBuffer;
@@ -212,12 +200,23 @@ var recorderManager = uni.getRecorderManager();var voice = "";var _default = { d
           for (var i = 0; i < size; i++) {
             sum += Math.abs(pcmArr[i]);
           }
+          var powerLevel = sum * 500.0 / (size * 16383);
+          if (powerLevel >= 100) {
+            powerLevel = 100;
+          }
+          if (powerLevel <= 5) {
+            powerLevel = 2;
+          }
+
+          powerLevel = parseInt(powerLevel);
+          var db = Math.floor(120 * (powerLevel / 100));
+          powerLevel = Math.floor(-108 + 108 * 2 * (powerLevel / 100));
+          if (db >= 40) {
+            console.log(db);
+          }
 
         }
       });
-    },
-    stop: function stop() {
-      uni.stopRecord();
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

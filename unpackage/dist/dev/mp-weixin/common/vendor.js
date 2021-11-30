@@ -8868,10 +8868,10 @@ module.exports = Mp3;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Frame = __webpack_require__(/*! ./frame */ 31);
-var util = __webpack_require__(/*! ./util */ 33);
-var consts = __webpack_require__(/*! ./consts */ 32);
-var Frameheader = __webpack_require__(/*! ./frameheader */ 34);
+var Frame = __webpack_require__(/*! ./frame */ 29);
+var util = __webpack_require__(/*! ./util */ 31);
+var consts = __webpack_require__(/*! ./consts */ 30);
+var Frameheader = __webpack_require__(/*! ./frameheader */ 32);
 
 var invalidLength = -1;
 
@@ -9102,21 +9102,19 @@ var Mp3 = {
 module.exports = Mp3;
 
 /***/ }),
-/* 29 */,
-/* 30 */,
-/* 31 */
+/* 29 */
 /*!***************************************************************!*\
   !*** E:/1MyProject/smi_dome/node_modules/js-mp3/src/frame.js ***!
   \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var consts = __webpack_require__(/*! ./consts */ 32);
-var util = __webpack_require__(/*! ./util */ 33);
-var Frameheader = __webpack_require__(/*! ./frameheader */ 34);
-var Imdct = __webpack_require__(/*! ./imdct */ 35);
-var Maindata = __webpack_require__(/*! ./maindata */ 36);
-var Sideinfo = __webpack_require__(/*! ./sideinfo */ 39);
+var consts = __webpack_require__(/*! ./consts */ 30);
+var util = __webpack_require__(/*! ./util */ 31);
+var Frameheader = __webpack_require__(/*! ./frameheader */ 32);
+var Imdct = __webpack_require__(/*! ./imdct */ 33);
+var Maindata = __webpack_require__(/*! ./maindata */ 34);
+var Sideinfo = __webpack_require__(/*! ./sideinfo */ 37);
 
 var powtab34 = new Float64Array(8207);
 var pretab_data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 3, 3, 3, 2, 0];
@@ -9854,7 +9852,7 @@ var Frame = {
 module.exports = Frame;
 
 /***/ }),
-/* 32 */
+/* 30 */
 /*!****************************************************************!*\
   !*** E:/1MyProject/smi_dome/node_modules/js-mp3/src/consts.js ***!
   \****************************************************************/
@@ -9923,7 +9921,7 @@ consts.BytesPerFrame = consts.SamplesPerGr * 2 * 4;
 module.exports = consts;
 
 /***/ }),
-/* 33 */
+/* 31 */
 /*!**************************************************************!*\
   !*** E:/1MyProject/smi_dome/node_modules/js-mp3/src/util.js ***!
   \**************************************************************/
@@ -10038,14 +10036,14 @@ module.exports = {
     } } };
 
 /***/ }),
-/* 34 */
+/* 32 */
 /*!*********************************************************************!*\
   !*** E:/1MyProject/smi_dome/node_modules/js-mp3/src/frameheader.js ***!
   \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var consts = __webpack_require__(/*! ./consts */ 32);
+var consts = __webpack_require__(/*! ./consts */ 30);
 
 var Frameheader = {
   createNew: function createNew(value) {
@@ -10327,7 +10325,7 @@ var Frameheader = {
 module.exports = Frameheader;
 
 /***/ }),
-/* 35 */
+/* 33 */
 /*!***************************************************************!*\
   !*** E:/1MyProject/smi_dome/node_modules/js-mp3/src/imdct.js ***!
   \***************************************************************/
@@ -10431,17 +10429,17 @@ var Imdct = {
 module.exports = Imdct;
 
 /***/ }),
-/* 36 */
+/* 34 */
 /*!******************************************************************!*\
   !*** E:/1MyProject/smi_dome/node_modules/js-mp3/src/maindata.js ***!
   \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var util = __webpack_require__(/*! ./util */ 33);
-var consts = __webpack_require__(/*! ./consts */ 32);
-var huffman = __webpack_require__(/*! ./huffman */ 37);
-var bits = __webpack_require__(/*! ./bits */ 38);
+var util = __webpack_require__(/*! ./util */ 31);
+var consts = __webpack_require__(/*! ./consts */ 30);
+var huffman = __webpack_require__(/*! ./huffman */ 35);
+var bits = __webpack_require__(/*! ./bits */ 36);
 
 var scalefacSizes = [
 [0, 0], [0, 1], [0, 2], [0, 3], [3, 0], [1, 1], [1, 2], [1, 3],
@@ -10754,7 +10752,7 @@ var readHuffman = function readHuffman(m, header, sideInfo, mainData, part_2_sta
 module.exports = MainData;
 
 /***/ }),
-/* 37 */
+/* 35 */
 /*!*****************************************************************!*\
   !*** E:/1MyProject/smi_dome/node_modules/js-mp3/src/huffman.js ***!
   \*****************************************************************/
@@ -11174,7 +11172,7 @@ module.exports = {
   decode: decode };
 
 /***/ }),
-/* 38 */
+/* 36 */
 /*!**************************************************************!*\
   !*** E:/1MyProject/smi_dome/node_modules/js-mp3/src/bits.js ***!
   \**************************************************************/
@@ -11267,16 +11265,16 @@ var getValue = function getValue(dv, index) {
 module.exports = Bits;
 
 /***/ }),
-/* 39 */
+/* 37 */
 /*!******************************************************************!*\
   !*** E:/1MyProject/smi_dome/node_modules/js-mp3/src/sideinfo.js ***!
   \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Bits = __webpack_require__(/*! ./bits */ 38);
-var consts = __webpack_require__(/*! ./consts */ 32);
-var util = __webpack_require__(/*! ./util */ 33);
+var Bits = __webpack_require__(/*! ./bits */ 36);
+var consts = __webpack_require__(/*! ./consts */ 30);
+var util = __webpack_require__(/*! ./util */ 31);
 
 var Sideinfo = {
   createNew: function createNew() {

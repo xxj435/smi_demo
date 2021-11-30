@@ -1,94 +1,93 @@
 <template>
-	<view class="record-container">
-		<button @click='start'>开始录音</button>
-		<button @click='play'>播放录音</button>
-		<button @click='stop'>停止录音</button>
+	<view>
+		<view @click="onClick">{{btlabel}}</view>
+		<view>{{fenbei}}dB</view>
 	</view>
 </template>
-
 <script>
-	import Mp3 from 'js-mp3'
-	const recorderManager = uni.getRecorderManager()
-	var voice = "";
-
-
+	import Mp3 from 'js-mp3';
 	export default {
 		data() {
 			return {
-				text: "uni-app",
-
-				voicePath: "",
-
-				isRecord: false, // 记录状态,录音中或者是未开始
-
-				intervalTime: 0,
-
-				timer: null
-			};
-		},
-
-		onLoad() {
-			console.log(Mp3);
-
-		},
-
-		computed: {
-			intIntervalTime() {
-				// 用于显示整数的秒数
-				return Math.round(this.intervalTime);
-			}
-		},
-
-		methods: {
-			play() {
-				uni.playVoice({
-					filePath: voice
-				})
-			},
-			start() {
-				uni.startRecord({
-					success: function(e) {
-						voice = e.tempFilePath
-					}
-				})
-				// recorderManager.onStart(() => {
-				// 	console.log('recorder start')
-				// })
-				
-				
-				const options = {
-					duration: 30000,
+				btlabel: '开始测试',
+				fenbei: 0,
+				rec: null,
+				options: {
+					duration: 600000,
 					sampleRate: 44100,
 					numberOfChannels: 1,
-					encodeBitRate: 64000,
-					format: 'mp3',
+					encodeBitRate: 192000,
+					format: 'mp3', // 设定为Mp3格式
 					frameSize: 1
-				}
-				
-				recorderManager.start(options)
-				
-						recorderManager.onFrameRecorded((res) => {
-							console.log(res);
-								const {
-									frameBuffer
-								} = res
-								var decoder = Mp3.newDecoder(frameBuffer)
-								if (decoder != null) {
-									var pcmArrayBuffer = decoder.decode();
-									var pcmArr = new Int16Array(pcmArrayBuffer);
-									var size = pcmArr.length
-									
-									var sum = 0;
-									for(var i = 0; i < size;i++){
-										sum += Math.abs(pcmArr[i]);
-									}
-									
-								}
-							})
-			},
-			stop() {
-				uni.stopRecord();
+				},
+				timeID: -1
 			}
-		}
-	};
+		},
+		onLoad() {
+			var _this = this;
+			_this.rec = uni.getRecorderManager();
+			clearTimeout(_this.timeID);
+			_this.timeID = setTimeout(function(){
+				_this.debounce();
+			}, 1000)
+
+			_this.rec.onStop(function(res) {
+				console.log('结束录音');
+				_this.btlabel = '开始测试';
+			})
+
+			_this.rec.onStart(function() {
+				console.log('开始录音');
+				_this.btlabel = '停止测试';
+				console.log(_this.btlabel);
+			})
+
+
+		},
+		methods: {
+			onClick(e) {
+				if (this.btlabel == '开始测试') {
+					this.rec.start(this.options);
+				} else {
+					this.rec.stop();
+				}
+			},
+			debounce() {
+				var _this = this;
+			_this.rec.onFrameRecorded(function(res) {
+				// console.log(res);
+				if (res.isLastFrame) return;
+				const {
+					frameBuffer
+				} = res
+				var decoder = Mp3.newDecoder(frameBuffer)
+				if (decoder != null) {
+					var pcmArrayBuffer = decoder.decode()
+					var pcmArr = new Int16Array(pcmArrayBuffer)
+					var size = pcmArr.length
+
+					var sum = 0;
+					for (var i = 0; i < size; i++) {
+						sum += Math.abs(pcmArr[i]);
+					}
+					var powerLevel = sum * 500.0 / (size * 16383);
+					if (powerLevel >= 100) {
+						powerLevel = 100
+					}
+					if (powerLevel <= 5) {
+						powerLevel = 2
+					}
+
+					powerLevel = parseInt(powerLevel);
+					var db = Math.floor(120 * (powerLevel / 100));
+					powerLevel = Math.floor(-108 + 108 * 2 * (powerLevel / 100));
+					if(db >= 40){
+						console.log(db);
+					}
+					
+				}
+			})
+			}
+		},
+	}
 </script>

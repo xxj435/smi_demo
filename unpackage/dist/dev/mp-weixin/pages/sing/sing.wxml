@@ -1,1 +1,1 @@
-<view class="record-container"><button data-event-opts="{{[['tap',[['start',['$event']]]]]}}" bindtap="__e">开始录音</button><button data-event-opts="{{[['tap',[['play',['$event']]]]]}}" bindtap="__e">播放录音</button><button data-event-opts="{{[['tap',[['stop',['$event']]]]]}}" bindtap="__e">停止录音</button></view>
+<view><view data-event-opts="{{[['tap',[['onClick',['$event']]]]]}}" bindtap="__e">{{btlabel}}</view><view>{{fenbei+"dB"}}</view></view>
